@@ -1,0 +1,56 @@
+<md-dialog>
+    <form ng-cloak>
+
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>New User Setup</h2>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <!-- we are using ng-model to bind this view and the 'user model -->
+                <md-input-container class="md-block">
+                    <label>Title</label>
+                    <input ng-model="title">
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>First Name</label>
+                    <input ng-model="first_name">
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Last Name</label>
+                    <input ng-model="last_name">
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Email</label>
+                    <input ng-model="email_address">
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Start Date</label>
+                    <input ng-model="start_date">
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Password</label>
+                    <input ng-model="password" type="password">
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Confirm Password</label>
+                    <input ng-model="confirm" type="password">
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="cancel()">Cancel</md-button>
+            <md-button ng-click="createUser()" class="md-primary">Add User</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

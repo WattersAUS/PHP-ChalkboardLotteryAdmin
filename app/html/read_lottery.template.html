@@ -1,0 +1,51 @@
+<div layout="row" ng-controller="userController" ng-cloak>
+    <div flex="10"></div>
+
+    <div flex="80" class='m-20px-0'>
+
+        <!-- page title & 'create product' button -->
+        <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+                <!-- page title -->
+                <div flex md-truncate>
+                    <h3 class="md-headline">User Maintenance</h3>
+                </div>
+                <!-- button for creating product -->
+                <md-button class="md-raised" ng-click="showNewUserForm()">New User</md-button>
+            </div>
+        </md-toolbar>
+
+        <!-- used for searching products in api -->
+        <md-input-container class="md-block m-b-0px">
+            <form ng-submit="searchUsers()">
+                <label>Search users...</label>
+                <input ng-model="user_search_keywords">
+            </form>
+        </md-input-container>
+
+        <md-content flex>
+            <!-- show user record list -->
+            <md-list ng-init="readUsers()">
+                <md-list-item class="md-3-line" ng-repeat="user in users">
+
+                    <!-- display user info -->
+                    <div class="md-list-item-text">
+                        <h3>{{user.last_name}}, {{user.first_name}} {{user.title}}</h3>
+                        <h4>{{user.email_address}}</h4>
+                        <h4>{{user.start_date}}</h4>
+                        <h4>{{user.end_date}}</h4>
+                    </div>
+
+                    <div class="md-secondary-container">
+                        <md-button class="md-raised md-info" ng-click="readUser(user.id)">View</md-button>
+                        <md-button class="md-raised md-primary" ng-click="showUpdateUserForm(user.id)">Edit</md-button>
+                        <md-button class="md-raised md-danger" ng-click="confirmDisableUser($event, user.id)">Disable</md-button>
+                    </div>
+                    <md-divider ng-if="!$last"></md-divider>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </div>
+
+    <div flex="10"></div>
+</div> <!-- end row -->
