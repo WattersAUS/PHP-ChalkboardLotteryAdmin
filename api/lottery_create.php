@@ -14,7 +14,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once './config/database.php';
+include_once './config/connect.php';
 include_once './lottery.php';
 
 $database = new Database();
@@ -38,11 +38,11 @@ $lottery->$endDate      = $data->endDate;
 
 if ($lottery->create()) {
     echo '{';
-        echo '"message": "New Lottery Draw added."';
+        echo '"message": "Lottery added successfully!"';
     echo '}';
 } else {
     echo '{';
-        echo '"message": New Lottery Draw was not added."';
+        echo '"message": Lottery was not added!"';
     echo '}';
 }
 ?>

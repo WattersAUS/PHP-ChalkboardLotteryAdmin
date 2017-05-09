@@ -14,7 +14,7 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 
-include_once './config/database.php';
+include_once './config/connect.php';
 include_once './lottery.php';
 
 $database       = new Database();

@@ -11,7 +11,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-include_once './config/database.php';
+include_once './config/connect.php';
 include_once './lottery.php';
 
 $database = new Database();
@@ -45,6 +45,6 @@ if ($num > 0) {
     }
     echo json_encode($lottery_arr);
 } else {
-    echo json_encode(array("message" => "No lotteries found."));
+    echo json_encode(array("message" => "No lottery records found!"));
 }
 ?>

@@ -14,7 +14,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once './config/database.php';
+include_once './config/connect.php';
 include_once './lottery.php';
 
 $database       = new Database();
@@ -25,11 +25,11 @@ $lottery->ident = $data->ident;
 
 if ($lottery->disable()) {
     echo '{';
-    echo '"message": "Lottery Draw has been disabled."';
+    echo '"message": "Lottery has been disabled!"';
     echo '}';
 } else {
     echo '{';
-    echo '"message": "Lottery Draw was not disabled."';
+    echo '"message": "Lottery was not disabled!"';
     echo '}';
 }
 ?>
