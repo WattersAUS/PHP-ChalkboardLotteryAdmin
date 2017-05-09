@@ -13,7 +13,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../config/core.php';
 include_once '../shared/utilities.php';
-include_once './config/database.php';
+include_once './config/connect.php';
 include_once './lottery.php';
 
 $utilities = new Utilities();
@@ -56,6 +56,6 @@ if ($num > 0) {
     $lottery_arr["paging"] = $paging;
     echo json_encode($lottery_arr);
 } else {
-    echo json_encode( array("message" => "No users found."));
+    echo json_encode( array("message" => "No lottery records found!"));
 }
 ?>

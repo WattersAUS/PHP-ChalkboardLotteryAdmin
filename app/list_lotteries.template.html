@@ -3,37 +3,35 @@
 
     <div flex="80" class='m-20px-0'>
 
-        <!-- page title & 'create product' button -->
+        <!-- title & button -->
         <md-toolbar class="md-hue-2">
             <div class="md-toolbar-tools">
                 <!-- page title -->
                 <div flex md-truncate>
-                    <h3 class="md-headline">User Maintenance</h3>
+                    <h3 class="md-headline">Lottery Setup</h3>
                 </div>
                 <!-- button for creating product -->
-                <md-button class="md-raised" ng-click="newLotteryForm()">New User</md-button>
+                <md-button class="md-raised" ng-click="newLotteryForm()">New Lottery</md-button>
             </div>
         </md-toolbar>
 
         <!-- used for searching products in api -->
         <md-input-container class="md-block m-b-0px">
             <form ng-submit="searchLotteries()">
-                <label>Search users...</label>
+                <label>Search lotteries...</label>
                 <input ng-model="search_keywords">
             </form>
         </md-input-container>
 
         <md-content flex>
-            <!-- show user record list -->
             <md-list ng-init="readLotteries()">
                 <md-list-item class="md-3-line" ng-repeat="lot in lotteries">
 
-                    <!-- display user info -->
+                    <!-- display details from the records -->
                     <div class="md-list-item-text">
-                        <h3>{{user.last_name}}, {{user.first_name}} {{user.title}}</h3>
-                        <h4>{{user.email_address}}</h4>
-                        <h4>{{user.start_date}}</h4>
-                        <h4>{{user.end_date}}</h4>
+                        <h3>{{lot.description}}</h3>
+                        <h4>{{lot.lastModified}}</h4>
+                        <h4>{{lot.draw}}</h4>
                     </div>
 
                     <div class="md-secondary-container">
