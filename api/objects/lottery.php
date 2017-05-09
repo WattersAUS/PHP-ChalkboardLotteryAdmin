@@ -9,7 +9,7 @@
 // 2017-05-06 v0.01   First cut of code
 //
 
-class LotteryDraws {
+class Lottery {
 
     // database connection and table name
     private $conn;

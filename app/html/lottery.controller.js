@@ -1,20 +1,19 @@
-app.controller('userController', function($scope, $mdDialog, $mdToast, userFactory){
+app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, userFactory){
 
     // read all users
-    $scope.readUsers = function(){
-        userFactory.readUsers().then(function successCallback(response){
+    $scope.readLotteries = function(){
+        userFactory.readLotteries().then(function successCallback(response){
             $scope.users = response.data.records;
         }, function errorCallback(response){
-            $scope.showToast("Unable to read user records.");
+            $scope.showToast("Unable to read lottery records.");
         });
 
     }
 
-    // show 'create user form' in dialog box
-    $scope.showNewUserForm = function(event){
+    $scope.newLotteryForm = function(event){
         $mdDialog.show({
             controller: DialogController,
-            templateUrl: './app/user/create_user.template.html',
+            templateUrl: './app/lottery/create_lottery.template.html',
             parent: angular.element(document.body),
             targetEvent: event,
             clickOutsideToClose: true,
@@ -23,19 +22,19 @@ app.controller('userController', function($scope, $mdDialog, $mdToast, userFacto
             fullscreen: true // Only for -xs, -sm breakpoints.
         });
     }
-    $scope.createUser = function(){
-        userFactory.createUser($scope).then(function successCallback(response){
+    $scope.createLottery = function(){
+        userFactory.createLottery($scope).then(function successCallback(response){
             $scope.showToast(response.data.message);
             $scope.readUsers();
             $scope.cancel();
-            $scope.clearUserForm();
+            $scope.clearLotteryForm();
         }, function errorCallback(response){
-            $scope.showToast("Unable to create new user record.");
+            $scope.showToast("Unable to create new lottery record.");
         });
     }
 
     // clear variable / form values
-    $scope.clearUserForm = function(){
+    $scope.clearLotteryForm = function(){
         $scope.id            = "";
         $scope.first_name    = "";
         $scope.last_name     = "";

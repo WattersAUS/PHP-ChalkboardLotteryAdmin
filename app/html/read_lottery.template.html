@@ -1,4 +1,4 @@
-<div layout="row" ng-controller="userController" ng-cloak>
+<div layout="row" ng-controller="lotteryCtrl" ng-cloak>
     <div flex="10"></div>
 
     <div flex="80" class='m-20px-0'>
@@ -11,7 +11,7 @@
                     <h3 class="md-headline">User Maintenance</h3>
                 </div>
                 <!-- button for creating product -->
-                <md-button class="md-raised" ng-click="showNewUserForm()">New User</md-button>
+                <md-button class="md-raised" ng-click="newLotteryForm()">New User</md-button>
             </div>
         </md-toolbar>
 
@@ -25,8 +25,8 @@
 
         <md-content flex>
             <!-- show user record list -->
-            <md-list ng-init="readUsers()">
-                <md-list-item class="md-3-line" ng-repeat="user in users">
+            <md-list ng-init="readLotteries()">
+                <md-list-item class="md-3-line" ng-repeat="lot in lotteries">
 
                     <!-- display user info -->
                     <div class="md-list-item-text">
@@ -37,9 +37,9 @@
                     </div>
 
                     <div class="md-secondary-container">
-                        <md-button class="md-raised md-info" ng-click="readUser(user.id)">View</md-button>
-                        <md-button class="md-raised md-primary" ng-click="showUpdateUserForm(user.id)">Edit</md-button>
-                        <md-button class="md-raised md-danger" ng-click="confirmDisableUser($event, user.id)">Disable</md-button>
+                        <md-button class="md-raised md-info" ng-click="readLottery(lot.id)">View</md-button>
+                        <md-button class="md-raised md-primary" ng-click="updateLotteryForm(lot.id)">Edit</md-button>
+                        <md-button class="md-raised md-danger" ng-click="confirmDisableLottery($event, lot.id)">Disable</md-button>
                     </div>
                     <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>

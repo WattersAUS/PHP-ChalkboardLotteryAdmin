@@ -11,39 +11,40 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-// include database and object files
 include_once '../config/database.php';
-include_once '../objects/user.php';
+include_once '../objects/lottery.php';
 
-// instantiate database and product object
 $database = new Database();
 $db       = $database->getConnection();
-$user     = new User($db);
+$lottery  = new Lottery($db);
+$keywords = isset($_GET["s"]) ? $_GET["s"] : "";
+$stmt     = $lottery->search($keywords);
+$num      = $stmt->rowCount();
 
-// get keywords
-$keywords=isset($_GET["s"]) ? $_GET["s"] : "";
-
-// query products
-$stmt = $user->search($keywords);
-$num  = $stmt->rowCount();
 if ($num > 0) {
-    $users_arr            = array();
-    $users_arr["records"] = array();
+    $lottery_arr            = array();
+    $lottery_arr["records"] = array();
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         extract($row);
-        $user_item=array(
-            "id"            => $id,
-            "first_name"    => $first_name,
-            "last_name"     => $last_name,
-            "start_date"    => $start_date,
-            "end_date"      => $end_date,
-            "email_address" => $email_address,
-            "password"      => $password
+        $lottery_item=array(
+            "ident"        => $ident,
+            "description"  => $description,
+            "draw"         => $draw,
+            "numbers"      => $numbers,
+            "upperNumber"  => $upperNumber,
+            "numbersTag"   => $numbersTag,
+            "specials"     => $specials,
+            "upperSpecial" => $upperSpecial,
+            "specialsTag"  => $specialsTag,
+            "isBonus"      => $isBonus,
+            "baseUrl"      => $baseUrl,
+            "lastModified" => $lastModified,
+            "endDate"      => $endDate
         );
-        array_push($users_arr["records"], $user_item);
+        array_push($lottery_arr["records"], $lottery_item);
     }
-    echo json_encode($users_arr);
+    echo json_encode($lottery_arr);
 } else {
-    echo json_encode(array("message" => "No users found."));
+    echo json_encode(array("message" => "No lotteries found."));
 }
 ?>

@@ -19,22 +19,25 @@ include_once '../objects/user.php';
 
 $database       = new Database();
 $dbConnection   = $database->newConnection();
-$user           = new LotteryDraw($db);
+$lottery        = new Lottery($db);
 $lottery->ident = isset($_GET['id']) ? $_GET['id'] : die();
+$lottery->readLottery();
 
-$user->readLottery();
-
-// create array
-$user_arr = array(
-    "id"            => $user->id,
-    "first_name"    => $user->first_name,
-    "last_name"     => $user->last_name,
-    "start_date"    => $user->start_date,
-    "end_date"      => $user->end_date,
-    "email_address" => $user->email_address,
-    "password"      => $user->password
+$lottery_arr = array(
+    "ident"        => $ident,
+    "description"  => $description,
+    "draw"         => $draw,
+    "numbers"      => $numbers,
+    "upperNumber"  => $upperNumber,
+    "numbersTag"   => $numbersTag,
+    "specials"     => $specials,
+    "upperSpecial" => $upperSpecial,
+    "specialsTag"  => $specialsTag,
+    "isBonus"      => $isBonus,
+    "baseUrl"      => $baseUrl,
+    "lastModified" => $lastModified,
+    "endDate"      => $endDate
 );
 
-// make it json format
-print_r(json_encode($user_arr));
+print_r(json_encode($lottery_arr));
 ?>

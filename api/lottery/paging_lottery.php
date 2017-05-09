@@ -15,7 +15,7 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/core.php';
 include_once '../shared/utilities.php';
 include_once '../config/database.php';
-include_once '../objects/user.php';
+include_once '../objects/lottery.php';
 
 // utilities
 $utilities = new Utilities();
@@ -23,36 +23,42 @@ $utilities = new Utilities();
 // instantiate database and product object
 $database = new Database();
 $db       = $database->getConnection();
-$user     = new User($db);
-$stmt     = $user->readPaging($from_record_num, $records_per_page);
+$lottery  = new Lottery($db);
+$stmt     = $lottery->readPaging($from_record_num, $records_per_page);
 $num      = $stmt->rowCount();
 
 // check if more than 0 record found
 if ($num > 0) {
-    $users_arr            = array();
-    $users_arr["records"] = array();
-    $users_arr["paging"]  = array();
+    $lottery_arr            = array();
+    $lottery_arr["records"] = array();
+    $lottery_arr["paging"]  = array();
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
-        $user_item = array(
-            "id"            => $id,
-            "first_name"    => $first_name,
-            "last_name"     => $last_name,
-            "start_date"    => $start_date,
-            "end_date"      => $end_date,
-            "email_address" => $email_address,
-            "password"      => $password
+        $lottery_item = array(
+            "ident"        => $ident,
+            "description"  => $description,
+            "draw"         => $draw,
+            "numbers"      => $numbers,
+            "upperNumber"  => $upperNumber,
+            "numbersTag"   => $numbersTag,
+            "specials"     => $specials,
+            "upperSpecial" => $upperSpecial,
+            "specialsTag"  => $specialsTag,
+            "isBonus"      => $isBonus,
+            "baseUrl"      => $baseUrl,
+            "lastModified" => $lastModified,
+            "endDate"      => $endDate
         );
-        array_push($users_arr["records"], $user_item);
+        array_push($lottery_arr["records"], $lottery_item);
     }
 
     // include paging
-    $total_rows          = $user->count();
-    $page_url            = "{$home_url}user/read_paging.php?";
-    $paging              = $utilities->getPaging($page, $total_rows, $records_per_page, $page_url);
-    $users_arr["paging"] = $paging;
-    echo json_encode($users_arr);
+    $total_rows            = $user->count();
+    $page_url              = "{$home_url}lottery/read_paging.php?";
+    $paging                = $utilities->getPaging($page, $total_rows, $records_per_page, $page_url);
+    $lottery_arr["paging"] = $paging;
+    echo json_encode($lottery_arr);
 } else {
     echo json_encode( array("message" => "No users found."));
 }

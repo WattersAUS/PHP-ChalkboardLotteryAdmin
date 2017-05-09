@@ -19,11 +19,11 @@ include_once '../objects/lottery.php';
 
 $database       = new Database();
 $db             = $database->getConnection();
-$lottery        = new LotteryDraw($db);
+$lottery        = new Lottery($db);
 $data           = json_decode(file_get_contents("php://input"));
 $lottery->ident = $data->ident;
 
-if ($user->enable()) {
+if ($lottery->enable()) {
     echo '{';
     echo '"message": "User was enabled."';
     echo '}';
