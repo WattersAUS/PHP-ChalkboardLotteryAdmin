@@ -18,7 +18,6 @@ $connect  = new Connect();
 $lottery  = new Lottery($connect->newConnection());
 $stmt     = $lottery->readAll();
 $num      = $stmt->rowCount();
-
 if ($num > 0) {
     $lottery_arr            = array();
     $lottery_arr["records"] = array();
@@ -29,15 +28,15 @@ if ($num > 0) {
             "description"  => $description,
             "draw"         => $draw,
             "numbers"      => $numbers,
-            "upperNumber"  => $upperNumber,
-            "numbersTag"   => $numbersTag,
+            "upperNumber"  => $upper_number,
+            "numbersTag"   => $numbers_tag,
             "specials"     => $specials,
-            "upperSpecial" => $upperSpecial,
-            "specialsTag"  => $specialsTag,
-            "isBonus"      => $isBonus,
-            "baseUrl"      => $baseUrl,
-            "lastModified" => $lastModified,
-            "endDate"      => $endDate
+            "upperSpecial" => $upper_special,
+            "specialsTag"  => $specials_tag,
+            "isBonus"      => $is_bonus,
+            "baseUrl"      => $base_url,
+            "lastModified" => $last_modified,
+            "endDate"      => $end_date
         );
         array_push($lottery_arr["records"], $lottery_item);
     }

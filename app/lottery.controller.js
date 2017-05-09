@@ -63,7 +63,7 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
     }
 
     // retrieve a single record to fill out the form
-    $scope.readLottery = function(id){
+    $scope.displayLotteryForm = function(id){
         lotteryFactory.readLottery(id).then(function successCallback(response){
             $scope.ident        = response.data.ident;
             $scope.description  = response.data.description;
@@ -116,7 +116,7 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
             $scope.endDate      = response.data.endDate;
             $mdDialog.show({
                 controller: DialogController,
-                templateUrl: './app/update_lottery.template.html',
+                templateUrl: './app/lottery_update.template.html',
                 parent: angular.element(document.body),
                 targetEvent: event,
                 clickOutsideToClose: true,

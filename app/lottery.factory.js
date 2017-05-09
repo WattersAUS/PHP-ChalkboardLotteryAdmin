@@ -5,7 +5,7 @@ app.factory("lotteryFactory", function($http){
     factory.readLotteries = function(){
         return $http({
             method: 'GET',
-            url: 'http://localhost/api/lottery_read_all.php'
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_read_all.php'
         });
     };
 
@@ -26,14 +26,14 @@ app.factory("lotteryFactory", function($http){
                 'lastModified' : $scope.lastModified,
                 'endDate'      : $scope.endDate
             },
-            url: 'http://localhost/api/lottery_create.php'
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_create.php'
         });
     };
 
     factory.readLottery = function(id){
         return $http({
             method: 'GET',
-            url: 'http://localhost/api/lottery_read.php?id=' + id
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_read.php?id=' + id
         });
     };
 
@@ -55,7 +55,7 @@ app.factory("lotteryFactory", function($http){
                 'lastModified' : $scope.lastModified,
                 'endDate'      : $scope.endDate
             },
-            url: 'http://localhost/api/lottery_update.php'
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_update.php'
         });
     };
 
@@ -63,7 +63,7 @@ app.factory("lotteryFactory", function($http){
         return $http({
             method: 'POST',
             data: { 'id' : id },
-            url: 'http://localhost/api/lottery_disable.php'
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_disable.php'
         });
     };
 
@@ -71,7 +71,7 @@ app.factory("lotteryFactory", function($http){
     factory.searchLotteries = function(keywords){
         return $http({
             method: 'GET',
-            url: 'http://localhost/api/lottery_search.php?s=' + keywords
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_search.php?s=' + keywords
         });
     };
 

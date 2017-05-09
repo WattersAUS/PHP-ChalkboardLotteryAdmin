@@ -8,10 +8,10 @@
             <div class="md-toolbar-tools">
                 <!-- page title -->
                 <div flex md-truncate>
-                    <h3 class="md-headline">Lottery Setup</h3>
+                    <h3 class="md-headline">ChalkboardLottery Setup</h3>
                 </div>
                 <!-- button for creating product -->
-                <md-button class="md-raised" ng-click="newLotteryForm()">New Lottery</md-button>
+                <md-button class="md-raised" ng-click="newLotteryForm()">Add a Lottery</md-button>
             </div>
         </md-toolbar>
 
@@ -26,18 +26,15 @@
         <md-content flex>
             <md-list ng-init="readLotteries()">
                 <md-list-item class="md-3-line" ng-repeat="lot in lotteries">
-
                     <!-- display details from the records -->
                     <div class="md-list-item-text">
                         <h3>{{lot.description}}</h3>
-                        <h4>{{lot.lastModified}}</h4>
-                        <h4>{{lot.draw}}</h4>
+                        <h4>Last Draw was {{lot.draw}}</h4>
+                        <p>Updated on {{lot.lastModified}}</p>
                     </div>
-
                     <div class="md-secondary-container">
-                        <md-button class="md-raised md-info" ng-click="readLottery(lot.id)">View</md-button>
+                        <md-button class="md-raised md-info" ng-click="displayLotteryForm(lot.id)">View</md-button>
                         <md-button class="md-raised md-primary" ng-click="updateLotteryForm(lot.id)">Edit</md-button>
-                        <md-button class="md-raised md-danger" ng-click="confirmDisableLottery($event, lot.id)">Disable</md-button>
                     </div>
                     <md-divider ng-if="!$last"></md-divider>
                 </md-list-item>
