@@ -11,23 +11,19 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-// include database and object files
 include_once '../config/core.php';
 include_once '../shared/utilities.php';
-include_once '../config/database.php';
-include_once '../objects/lottery.php';
+include_once './config/database.php';
+include_once './lottery.php';
 
-// utilities
 $utilities = new Utilities();
 
-// instantiate database and product object
 $database = new Database();
 $db       = $database->getConnection();
 $lottery  = new Lottery($db);
 $stmt     = $lottery->readPaging($from_record_num, $records_per_page);
 $num      = $stmt->rowCount();
 
-// check if more than 0 record found
 if ($num > 0) {
     $lottery_arr            = array();
     $lottery_arr["records"] = array();
@@ -53,7 +49,7 @@ if ($num > 0) {
         array_push($lottery_arr["records"], $lottery_item);
     }
 
-    // include paging
+    // paging
     $total_rows            = $user->count();
     $page_url              = "{$home_url}lottery/read_paging.php?";
     $paging                = $utilities->getPaging($page, $total_rows, $records_per_page, $page_url);

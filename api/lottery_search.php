@@ -1,6 +1,6 @@
 <?php
 //
-// Module: read_all_lottery.php (2017-05-06) G.J. Watson
+// Module: search_lottery.php (2017-05-06) G.J. Watson
 //
 // Purpose: class to support lottery_draws table
 //
@@ -11,13 +11,14 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-include_once '../config/database.php';
-include_once '../objects/lottery.php';
+include_once './config/database.php';
+include_once './lottery.php';
 
 $database = new Database();
 $db       = $database->getConnection();
 $lottery  = new Lottery($db);
-$stmt     = $lottery->readAll();
+$keywords = isset($_GET["s"]) ? $_GET["s"] : "";
+$stmt     = $lottery->search($keywords);
 $num      = $stmt->rowCount();
 
 if ($num > 0) {
@@ -44,6 +45,6 @@ if ($num > 0) {
     }
     echo json_encode($lottery_arr);
 } else {
-    echo json_encode(array("message" => "No users found."));
+    echo json_encode(array("message" => "No lotteries found."));
 }
 ?>

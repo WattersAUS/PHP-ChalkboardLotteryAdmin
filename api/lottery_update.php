@@ -1,6 +1,6 @@
 <?php
 //
-// Module: create_lottery.php (2017-05-06) G.J. Watson
+// Module: update_lottery.php (2017-05-06) G.J. Watson
 //
 // Purpose: class to support lottery_draws table
 //
@@ -14,8 +14,8 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once '../config/database.php';
-include_once '../objects/lottery.php';
+include_once './config/database.php';
+include_once './lottery.php';
 
 $database = new Database();
 $db       = $database->getConnection();
@@ -36,13 +36,13 @@ $lottery->$baseUrl      = $data->baseUrl;
 $lottery->$lastModified = $data->lastModified;
 $lottery->$endDate      = $data->endDate;
 
-if ($lottery->create()) {
+if ($lottery->update()) {
     echo '{';
-        echo '"message": "New Lottery Draw added."';
+        echo '"message": "Updated Lottery."';
     echo '}';
 } else {
     echo '{';
-        echo '"message": New Lottery Draw was not added."';
+        echo '"message": "Lottery was not updated."';
     echo '}';
 }
 ?>
