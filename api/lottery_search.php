@@ -14,9 +14,8 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once './config/connect.php';
 include_once './lottery.php';
 
-$database = new Database();
-$db       = $database->getConnection();
-$lottery  = new Lottery($db);
+$connect  = new Connect();
+$lottery  = new Lottery($connect->newConnection());
 $keywords = isset($_GET["s"]) ? $_GET["s"] : "";
 $stmt     = $lottery->search($keywords);
 $num      = $stmt->rowCount();

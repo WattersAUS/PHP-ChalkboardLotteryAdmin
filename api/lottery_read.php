@@ -17,9 +17,8 @@ header('Content-Type: application/json');
 include_once './config/connect.php';
 include_once './lottery.php';
 
-$database       = new Database();
-$dbConnection   = $database->newConnection();
-$lottery        = new Lottery($db);
+$connect        = new Connect();
+$lottery        = new Lottery($connect->newConnection());
 $lottery->ident = isset($_GET['id']) ? $_GET['id'] : die();
 $lottery->readLottery();
 

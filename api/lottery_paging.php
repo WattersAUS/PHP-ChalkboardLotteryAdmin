@@ -16,11 +16,8 @@ include_once '../shared/utilities.php';
 include_once './config/connect.php';
 include_once './lottery.php';
 
-$utilities = new Utilities();
-
-$database = new Database();
-$db       = $database->getConnection();
-$lottery  = new Lottery($db);
+$connect  = new Connect();
+$lottery  = new Lottery($connect->newConnection());
 $stmt     = $lottery->readPaging($from_record_num, $records_per_page);
 $num      = $stmt->rowCount();
 
@@ -50,10 +47,8 @@ if ($num > 0) {
     }
 
     // paging
-    $total_rows            = $user->count();
-    $page_url              = "{$home_url}lottery/read_paging.php?";
-    $paging                = $utilities->getPaging($page, $total_rows, $records_per_page, $page_url);
-    $lottery_arr["paging"] = $paging;
+    $util                  = new Utilities();
+    $lottery_arr["paging"] = $utils->getPaging($page, $lottery->count(), $records_per_page, "{$home_url}lottery/read_paging.php?");
     echo json_encode($lottery_arr);
 } else {
     echo json_encode( array("message" => "No lottery records found!"));

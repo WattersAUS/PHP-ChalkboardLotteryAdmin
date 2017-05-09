@@ -17,9 +17,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once './config/connect.php';
 include_once './lottery.php';
 
-$database = new Database();
-$db       = $database->getConnection();
-$lottery  = new Lottery($db);
+$connect  = new Connect();
+$lottery  = new Lottery($connect->newConnection());
 $data     = json_decode(file_get_contents("php://input"));
 
 $lottery->$ident        = $data->ident;
