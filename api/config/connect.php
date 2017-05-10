@@ -7,23 +7,20 @@
 // Date       Version Note
 // ========== ======= ================================================
 // 2017-05-06 v0.01   First cut of code
+// 2017-05-10 v0.01   Use mySqli not PDO
 //
 class Connect {
+    private $hostname = "";
+    private $username = "";
+    private $password = "";
+    private $database = "";
 
-    // specify your own database credentials
-    private $hostname      = "";
-    private $databasename  = "";
-    private $username      = "";
-    private $password      = "";
     public  $dbConnection;
 
-    public function newConnection() {
-        $this->dbConnection = null;
-        try {
-            $this->dbConnection = new PDO("mysql:host=".$this->hostname.";dbname=".$this->databasename, $this->username, $this->password);
-            $this->dbConnection->exec("set names utf8");
-        } catch (PDOException $exception){
-            echo "Connection error: " . $exception->getMessage();
+    public function createConnection() {
+	$this->dbConnection = new mysqli($this->hostname, $this->username, $this->password, $this->database);
+        if ($this->dbConnection->connect_error) {
+            die('Connection Error ('.mysqli_connect_errno().') '.mysqli_connect_error());
         }
         return $this->dbConnection;
     }
