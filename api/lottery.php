@@ -12,7 +12,7 @@
 class Lottery {
 
     // database connection and table name
-    private $conn;
+    private $dbConnection;
     private $table_name = "lottery_draws";
 
     // object properties
@@ -32,19 +32,19 @@ class Lottery {
 
     // constructor with $db as database connection
     public function __construct($db){
-        $this->conn = $db;
+        $this->dbConnection = $db;
     }
 
     function readAll() {
         $query = "SELECT ident, description, draw, numbers, upper_number, numbers_tag, specials, upper_special, specials_tag, is_bonus, base_url, last_modified, end_date FROM ".$this->table_name;
-        $stmt  = $this->conn->prepare($query);
+        $stmt  = $this->dbConnection->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
     function create() {
         $query               = "INSERT INTO ".$this->table_name." SET description=:description, draw=:draw, numbers=:numbers, upper_number=:upper_number, numbers_tag=:numbers_tag, specials=:specials, upper_special=:upper_special, specials_tag=:specials_tag, is_bonus=:is_bonus, base_url=:base_url, last_modified=now(), end_date=NULL";
-        $stmt                = $this->conn->prepare($query);
+        $stmt                = $this->dbConnection->prepare($query);
         $this->description   = htmlspecialchars(strip_tags($this->description));
         $this->base_url      = htmlspecialchars(strip_tags($this->base_url));
         $stmt->bindParam(":description",   $this->description);
@@ -66,7 +66,7 @@ class Lottery {
 
     function read() {
         $query = "SELECT ident, description, draw, numbers, upper_number, numbers_tag, specials, upper_special, specials_tag, is_bonus, base_url, last_modified, end_date FROM ".$this->table_name." WHERE ident = ? LIMIT 0,1";
-        $stmt  = $this->conn->prepare($query);
+        $stmt  = $this->dbConnection->prepare($query);
         $stmt->bindParam(1, $this->ident);
         $stmt->execute();
         $row                 = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -86,7 +86,7 @@ class Lottery {
 
     function update() {
         $query               = "UPDATE ".$this->table_name." SET description=:description, draw=:draw, numbers=:numbers, upper_number=:upper_number, numbers_tag=:numbers_tag, specials=:specials, upper_special=:upper_special, specials_tag=:specials_tag, is_bonus=:is_bonus, base_url=:base_url, last_modified=now(), end_date=:end_date WHERE ident = :ident";
-        $stmt                = $this->conn->prepare($query);
+        $stmt                = $this->dbConnection->prepare($query);
         $this->description   = htmlspecialchars(strip_tags($this->description));
         $this->base_url      = htmlspecialchars(strip_tags($this->base_url));
         $stmt->bindParam(":description",   $this->description);
@@ -110,7 +110,7 @@ class Lottery {
 
     function disable() {
         $query = "UPDATE ".$this->table_name." SET end_date = now() WHERE ident = :ident";
-        $stmt  = $this->conn->prepare($query);
+        $stmt  = $this->dbConnection->prepare($query);
         $stmt->bindParam(':ident', $this->ident);
         if ($stmt->execute()) {
             return true;
@@ -121,7 +121,7 @@ class Lottery {
 
     function enable() {
         $query = "UPDATE ".$this->table_name." SET end_date = NULL WHERE ident = :ident";
-        $stmt  = $this->conn->prepare($query);
+        $stmt  = $this->dbConnection->prepare($query);
         $stmt->bindParam(':ident', $this->ident);
         if ($stmt->execute()) {
             return true;
@@ -132,7 +132,7 @@ class Lottery {
 
     function search($keywords) {
         $query = "SELECT ident, description, draw, numbers, upper_number, numbers_tag, specials, upper_special, specials_tag, is_bonus, base_url, last_modified, end_date FROM ".$this->table_name." WHERE description LIKE ? ORDER BY description DESC";
-        $stmt  = $this->conn->prepare($query);
+        $stmt  = $this->dbConnection->prepare($query);
         $keywords=htmlspecialchars(strip_tags($keywords));
         $keywords = "%{$keywords}%";
         $stmt->bindParam(1, $keywords);
@@ -142,7 +142,7 @@ class Lottery {
 
     public function pagingRead($from_record_num, $records_per_page) {
         $query = "SELECT ident, description, draw, numbers, upper_number, numbers_tag, specials, upper_special, specials_tag, is_bonus, base_url, last_modified, end_date FROM ".$this->table_name." ORDER BY description DESC LIMIT ?, ?";
-        $stmt  = $this->conn->prepare( $query );
+        $stmt  = $this->dbConnection->prepare( $query );
         $stmt->bindParam(1, $from_record_num, PDO::PARAM_INT);
         $stmt->bindParam(2, $records_per_page, PDO::PARAM_INT);
         $stmt->execute();
@@ -151,7 +151,7 @@ class Lottery {
 
     public function count() {
         $query = "SELECT COUNT(*) as total_rows FROM " . $this->table_name . "";
-        $stmt  = $this->conn->prepare( $query );
+        $stmt  = $this->dbConnection->prepare( $query );
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['total_rows'];
