@@ -4,44 +4,61 @@
         <!-- dialog box title -->
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>View User Details/h2>
+                <h2>View Lottery Details/h2>
             </div>
         </md-toolbar>
 
         <md-dialog-content>
             <div class="md-dialog-content">
-
-                    <!-- we are using ng-model to bind this view and the 'user model -->
+                <p>Last Modified: {{lottery.lastModified}}</p>
                 <md-input-container class="md-block">
-                    <label>Title</label>
-                    <input ng-model="title" disabled>
+                    <label>Description</label>
+                    <input ng-model="description" readonly>
                 </md-input-container>
 
                 <md-input-container class="md-block">
-                    <label>First Name</label>
-                    <input ng-model="first_name" disabled>
+                    <label>Last Draw</label>
+                    <input ng-model="draw" readonly>
                 </md-input-container>
 
                 <md-input-container class="md-block">
-                    <label>Last Name</label>
-                    <input ng-model="last_name" disabled>
+                    <label>How many numbers</label>
+                    <input ng-model="numbers" readonly>
                 </md-input-container>
 
                 <md-input-container class="md-block">
-                    <label>Email</label>
-                    <input ng-model="email_address" disabled>
+                    <label>Maximum number value</label>
+                    <input ng-model="upperNumber" readonly>
                 </md-input-container>
 
                 <md-input-container class="md-block">
-                    <label>Start Date</label>
-                    <input ng-model="start_date" disabled>
+                    <label>Numbers tag</label>
+                    <input ng-model="numbersTag" readonly>
                 </md-input-container>
 
                 <md-input-container class="md-block">
-                    <label>Password</label>
-                    <input ng-model="password" disabled>
+                    <label>How many specials</label>
+                    <input ng-model="specials" readonly>
                 </md-input-container>
 
+                <md-input-container class="md-block">
+                    <label>Maximum special value</label>
+                    <input ng-model="upperSpecial" readonly>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Specials tag</label>
+                    <input ng-model="specialsTag" readonly>
+                </md-input-container>
+
+                <md-checkbox class="md-block" ng-model="isBonus" readonly>
+                    <label>Bonus Number?</label>
+                </md-checkbox>
+
+                <md-input-container class="md-block">
+                    <label>URL</label>
+                    <input ng-model="baseUrl" readonly>
+                </md-input-container>
             </div>
         </md-dialog-content>
 

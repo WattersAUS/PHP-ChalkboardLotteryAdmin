@@ -11,7 +11,7 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
     $scope.newLotteryForm = function(event){
         $mdDialog.show({
             controller: DialogController,
-            templateUrl: './app/lottery/create_lottery.template.html',
+            templateUrl: './app/lottery/lottery_insert.template.html',
             parent: angular.element(document.body),
             targetEvent: event,
             clickOutsideToClose: true,
