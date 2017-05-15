@@ -1,6 +1,6 @@
 <?php
 //
-// Module: read_lottery.php (2017-05-06) G.J. Watson
+// Module: lottery_read.php (2017-05-06) G.J. Watson
 //
 // Purpose: class to support lottery_draws table
 //
@@ -17,26 +17,9 @@ header('Content-Type: application/json');
 include_once './config/connect.php';
 include_once './lottery.php';
 
-$connect        = new Connect();
-$lottery        = new Lottery($connect->newConnection());
-$lottery->ident = isset($_GET['id']) ? $_GET['id'] : die();
-$lottery->readLottery();
-
-$lottery_arr = array(
-    "ident"        => $ident,
-    "description"  => $description,
-    "draw"         => $draw,
-    "numbers"      => $numbers,
-    "upperNumber"  => $upperNumber,
-    "numbersTag"   => $numbersTag,
-    "specials"     => $specials,
-    "upperSpecial" => $upperSpecial,
-    "specialsTag"  => $specialsTag,
-    "isBonus"      => $isBonus,
-    "baseUrl"      => $baseUrl,
-    "lastModified" => $lastModified,
-    "endDate"      => $endDate
-);
-
-print_r(json_encode($lottery_arr));
+$connect = new Connect();
+$dbconn  = $connect->createConnection();
+$lottery = new Lottery($dbconn);
+$id      = isset($_GET['id']) ? $_GET['id'] : die();
+echo($lottery->read($id));
 ?>

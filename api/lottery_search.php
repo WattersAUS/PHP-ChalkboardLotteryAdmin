@@ -7,43 +7,20 @@
 // Date       Version Note
 // ========== ======= ================================================
 // 2017-05-06 v0.01   First cut of code
+// 2017-05-15 v0.02   Updated code to support JSON responses
 //
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once './config/connect.php';
 include_once './lottery.php';
 
-$connect  = new Connect();
-$lottery  = new Lottery($connect->newConnection());
-$keywords = isset($_GET["s"]) ? $_GET["s"] : "";
-$stmt     = $lottery->search($keywords);
-$num      = $stmt->rowCount();
-
-if ($num > 0) {
-    $lottery_arr            = array();
-    $lottery_arr["records"] = array();
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        extract($row);
-        $lottery_item=array(
-            "ident"        => $ident,
-            "description"  => $description,
-            "draw"         => $draw,
-            "numbers"      => $numbers,
-            "upperNumber"  => $upperNumber,
-            "numbersTag"   => $numbersTag,
-            "specials"     => $specials,
-            "upperSpecial" => $upperSpecial,
-            "specialsTag"  => $specialsTag,
-            "isBonus"      => $isBonus,
-            "baseUrl"      => $baseUrl,
-            "lastModified" => $lastModified,
-            "endDate"      => $endDate
-        );
-        array_push($lottery_arr["records"], $lottery_item);
-    }
-    echo json_encode($lottery_arr);
-} else {
-    echo json_encode(array("message" => "No lottery records found!"));
-}
+$connect = new Connect();
+$dbconn  = $connect->createConnection();
+$lottery = new Lottery($dbconn);
+$search  = isset($_GET["s"]) ? $_GET["s"] : die();
+echo($lottery->search($search));
 ?>

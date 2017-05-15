@@ -1,12 +1,13 @@
 <?php
 //
-// Module: create_lottery.php (2017-05-06) G.J. Watson
+// Module: lottery_insert.php (2017-05-06) G.J. Watson
 //
 // Purpose: class to support lottery_draws table
 //
 // Date       Version Note
 // ========== ======= ================================================
 // 2017-05-06 v0.01   First cut of code
+// 2017-05-15 v0.02   Renamed from lottery_create.php
 //
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -17,11 +18,11 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once './config/connect.php';
 include_once './lottery.php';
 
-$connect  = new Connect();
-$lottery  = new Lottery($connect->newConnection());
-$data     = json_decode(file_get_contents("php://input"));
+$connect = new Connect();
+$dbconn  = $connect->createConnection();
+$lottery = new Lottery($dbconn);
+$data    = json_decode(file_get_contents("php://input"));
 
-$lottery->$ident        = $data->ident;
 $lottery->$description  = $data->description;
 $lottery->$draw         = $data->draw;
 $lottery->$numbers      = $data->numbers;
@@ -32,16 +33,5 @@ $lottery->$upperSpecial = $data->upperSpecial;
 $lottery->$specialsTag  = $data->specialsTag;
 $lottery->$isBonus      = $data->isBonus;
 $lottery->$baseUrl      = $data->baseUrl;
-$lottery->$lastModified = $data->lastModified;
-$lottery->$endDate      = $data->endDate;
-
-if ($lottery->create()) {
-    echo '{';
-        echo '"message": "Lottery added successfully!"';
-    echo '}';
-} else {
-    echo '{';
-        echo '"message": Lottery was not added!"';
-    echo '}';
-}
+echo($lottery->insert());
 ?>

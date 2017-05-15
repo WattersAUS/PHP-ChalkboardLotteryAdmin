@@ -8,6 +8,7 @@
 // ========== ======= ================================================
 // 2017-05-06 v0.01   First cut of code
 // 2017-05-10 v0.02   Use mySQLi not PDO, and return JSON result set
+// 2017-05-15 v0.03   Fixed some incorrect variable names in obj
 //
 
 class Lottery {
@@ -206,8 +207,8 @@ class Lottery {
         $query             = "INSERT INTO ".$this->table_name." SET description = ?, draw = ?, numbers = ?, upper_number = ?, numbers_tag = ?, specials = ?, upper_special = ?, specials_tag = ?, is_bonus = ?, base_url = ?, last_modified = now(), end_date = NULL";
         $stmt              = $this->dbConnection->prepare($query);
         $this->description = htmlspecialchars(strip_tags($this->description));
-        $this->base_url    = htmlspecialchars(strip_tags($this->base_url));
-        $stmt->bind_param('siiisiisis', $this->description,$this->draw,$this->numbers,$this->upper_number,$this->numbers_tag,$this->specials,$this->upper_special,$this->specials_tag,$this->is_bonus,$this->base_url);
+        $this->baseUrl     = htmlspecialchars(strip_tags($this->baseUrl));
+        $stmt->bind_param('siiisiisis', $this->description,$this->draw,$this->numbers,$this->upperNumber,$this->numbersTag,$this->specials,$this->upperSpecial,$this->specialsTag,$this->isBonus,$this->baseUrl);
         $data             = array();
         $data["success"]  = "Fail";
         $data["count"]    = 0;
@@ -221,7 +222,7 @@ class Lottery {
     }
 
     public function disable($id) {
-        $query = "UPDATE ".$this->table_name." SET end_date = now() WHERE ident = ?";
+        $query = "UPDATE ".$this->table_name." SET end_date = now() WHERE ident = ? AND end_date IS NULL";
         $stmt  = $this->dbConnection->prepare($query);
         $stmt->bind_param('i', $id);
         $data            = array();
@@ -235,7 +236,7 @@ class Lottery {
     }
 
     public function enable($id) {
-        $query = "UPDATE ".$this->table_name." SET end_date = NULL WHERE ident = ?";
+        $query = "UPDATE ".$this->table_name." SET end_date = NULL WHERE ident = ? AND end_date IS NOT NULL";
         $stmt  = $this->dbConnection->prepare($query);
         $stmt->bind_param('i', $id);
         $data            = array();
@@ -266,8 +267,8 @@ class Lottery {
         $query             = "UPDATE ".$this->table_name." SET description = ?, draw = ?, numbers = ?, upper_number = ?, numbers_tag = ?, specials = ?, upper_special = ?, specials_tag = ?, is_bonus = ?, base_url = ?, last_modified = now() WHERE ident = ?";
         $stmt              = $this->dbConnection->prepare($query);
         $this->description = htmlspecialchars(strip_tags($this->description));
-        $this->base_url    = htmlspecialchars(strip_tags($this->base_url));
-        $stmt->bind_param('siiisiisisi', $this->description,$this->draw,$this->numbers,$this->upper_number,$this->numbers_tag,$this->specials,$this->upper_special,$this->specials_tag,$this->is_bonus,$this->base_url,$id);
+        $this->baseUrl     = htmlspecialchars(strip_tags($this->baseUrl));
+        $stmt->bind_param('siiisiisisi', $this->description,$this->draw,$this->numbers,$this->upperNumber,$this->numbersTag,$this->specials,$this->upperSpecial,$this->specialsTag,$this->isBonus,$this->baseUrl,$id);
         $data            = array();
         $data["success"] = "Fail";
         $data["count"]   = 0;
