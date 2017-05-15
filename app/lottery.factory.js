@@ -22,9 +22,7 @@ app.factory("lotteryFactory", function($http){
                 'upperSpecial' : $scope.upperSpecial,
                 'specialsTag'  : $scope.specialsTag,
                 'isBonus'      : $scope.isBonus,
-                'baseUrl'      : $scope.baseUrl,
-                'lastModified' : $scope.lastModified,
-                'endDate'      : $scope.endDate
+                'baseUrl'      : $scope.baseUrl
             },
             url: 'http://www.shiny-ideas.co.uk/api/lottery_create.php'
         });
@@ -51,9 +49,7 @@ app.factory("lotteryFactory", function($http){
                 'upperSpecial' : $scope.upperSpecial,
                 'specialsTag'  : $scope.specialsTag,
                 'isBonus'      : $scope.isBonus,
-                'baseUrl'      : $scope.baseUrl,
-                'lastModified' : $scope.lastModified,
-                'endDate'      : $scope.endDate
+                'baseUrl'      : $scope.baseUrl
             },
             url: 'http://www.shiny-ideas.co.uk/api/lottery_update.php'
         });
