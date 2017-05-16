@@ -2,6 +2,7 @@ app.factory("lotteryFactory", function($http){
 
     var factory = {};
 
+    // return array of recs to controller
     factory.readLotteries = function(){
         return $http({
             method: 'GET',
@@ -9,7 +10,24 @@ app.factory("lotteryFactory", function($http){
         });
     };
 
-    factory.createLottery = function($scope){
+    // may only be one in the array (needs to be tested)
+    factory.readLottery = function(id){
+        return $http({
+            method: 'GET',
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_read.php?id=' + id
+        });
+    };
+
+    // return array of LIKE data
+    factory.searchLotteries = function(keywords){
+        return $http({
+            method: 'GET',
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_search.php?s=' + keywords
+        });
+    };
+
+    // insert one
+    factory.insertLottery = function($scope){
         return $http({
             method: 'POST',
             data: {
@@ -24,17 +42,11 @@ app.factory("lotteryFactory", function($http){
                 'isBonus'      : $scope.isBonus,
                 'baseUrl'      : $scope.baseUrl
             },
-            url: 'http://www.shiny-ideas.co.uk/api/lottery_create.php'
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_insert.php'
         });
     };
 
-    factory.readLottery = function(id){
-        return $http({
-            method: 'GET',
-            url: 'http://www.shiny-ideas.co.uk/api/lottery_read.php?id=' + id
-        });
-    };
-
+    // update data
     factory.updateLottery = function($scope){
         return $http({
             method: 'POST',
@@ -55,6 +67,7 @@ app.factory("lotteryFactory", function($http){
         });
     };
 
+    // will update one field on the data
     factory.disableLottery = function(id){
         return $http({
             method: 'POST',
@@ -63,11 +76,11 @@ app.factory("lotteryFactory", function($http){
         });
     };
 
-    // search all products
-    factory.searchLotteries = function(keywords){
+    factory.enableLottery = function(id){
         return $http({
-            method: 'GET',
-            url: 'http://www.shiny-ideas.co.uk/api/lottery_search.php?s=' + keywords
+            method: 'POST',
+            data: { 'id' : id },
+            url: 'http://www.shiny-ideas.co.uk/api/lottery_enable.php'
         });
     };
 
