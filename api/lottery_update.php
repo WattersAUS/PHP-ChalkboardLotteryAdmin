@@ -20,16 +20,16 @@ $dbconn  = $connect->createConnection();
 $lottery = new Lottery($dbconn);
 $data    = json_decode(file_get_contents("php://input"));
 
-$lottery->$description  = $data->{'description'};
-$lottery->$draw         = $data->{'draw'};
-$lottery->$numbers      = $data->{'numbers'};
-$lottery->$upperNumber  = $data->{'upperNumber'};
-$lottery->$numbersTag   = $data->{'numbersTag'};
-$lottery->$specials     = $data->{'specials'};
-$lottery->$upperSpecial = $data->{'upperSpecial'};
-$lottery->$specialsTag  = $data->{'specialsTag'};
-$lottery->$isBonus      = $data->{'isBonus'};
-$lottery->$baseUrl      = $data->{'baseUrl'};
-$id                     = $data->{'ident'};
+$lottery->description  = $data->{'description'};
+$lottery->draw         = $data->{'draw'};
+$lottery->numbers      = $data->{'numbers'};
+$lottery->upperNumber  = $data->{'upperNumber'};
+$lottery->numbersTag   = $data->{'numbersTag'};
+$lottery->specials     = $data->{'specials'};
+$lottery->upperSpecial = $data->{'upperSpecial'};
+$lottery->specialsTag  = $data->{'specialsTag'};
+$lottery->isBonus      = $data->{'isBonus'};
+$lottery->baseUrl      = $data->{'baseUrl'};
+$id                    = $data->{'ident'};
 echo($lottery->update($id));
 ?>

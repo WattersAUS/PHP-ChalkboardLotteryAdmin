@@ -19,6 +19,6 @@ $connect = new Connect();
 $dbconn  = $connect->createConnection();
 $lottery = new Lottery($dbconn);
 $data    = json_decode(file_get_contents("php://input"));
-$id      = $data->{'id'};
+$id      = $data->{'ident'};
 echo($lottery->enable($id));
 ?>

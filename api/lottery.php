@@ -209,7 +209,7 @@ class Lottery {
         $this->baseUrl     = htmlspecialchars(strip_tags($this->baseUrl));
         $this->query       = "INSERT INTO ".$this->table_name." SET description = ?, draw = ?, numbers = ?, upper_number = ?, numbers_tag = ?, specials = ?, upper_special = ?, specials_tag = ?, is_bonus = ?, base_url = ?, last_modified = now(), end_date = NULL";
         $stmt              = $this->dbConnection->prepare($this->query);
-        $stmt->bind_param('siiisiisis', $this->description,$this->draw,$this->numbers,$this->upperNumber,$this->numbersTag,$this->specials,$this->upperSpecial,$this->specialsTag,$this->isBonus,$this->baseUrl);
+        $stmt->bind_param('siiisiisis',$this->description,$this->draw,$this->numbers,$this->upperNumber,$this->numbersTag,$this->specials,$this->upperSpecial,$this->specialsTag,$this->isBonus,$this->baseUrl);
         $data             = array();
         $data["success"]  = "Fail";
         $data["count"]    = 0;
@@ -222,13 +222,31 @@ class Lottery {
         return json_encode($data);
     }
 
+    public function update($id) {
+        $this->query       = "UPDATE ".$this->table_name." SET description = ?, draw = ?, numbers = ?, upper_number = ?, numbers_tag = ?, specials = ?, upper_special = ?, specials_tag = ?, is_bonus = ?, base_url = ?, last_modified = now() WHERE ident = ?";
+        $stmt              = $this->dbConnection->prepare($this->query);
+        $this->description = htmlspecialchars(strip_tags($this->description));
+        $this->baseUrl     = htmlspecialchars(strip_tags($this->baseUrl));
+        $stmt->bind_param('siiisiisisi',$this->description,$this->draw,$this->numbers,$this->upperNumber,$this->numbersTag,$this->specials,$this->upperSpecial,$this->specialsTag,$this->isBonus,$this->baseUrl,$id);
+        $data             = array();
+        $data["success"]  = "Fail";
+        $data["count"]    = 0;
+        $data["recordId"] = $id;
+        if ($stmt->execute()) {
+            $data["success"] = "Ok";
+            $data["count"]   = $this->dbConnection->affected_rows;
+        }
+        return json_encode($data);
+    }
+
     public function disable($id) {
         $this->query = "UPDATE ".$this->table_name." SET end_date = now() WHERE ident = ? AND end_date IS NULL";
         $stmt  = $this->dbConnection->prepare($this->query);
         $stmt->bind_param('i', $id);
-        $data            = array();
-        $data["success"] = "Fail";
-        $data["count"]   = 0;
+        $data             = array();
+        $data["success"]  = "Fail";
+        $data["count"]    = 0;
+        $data["recordId"] = $id;
         if ($stmt->execute()) {
             $data["success"] = "Ok";
             $data["count"]   = $this->dbConnection->affected_rows;
@@ -240,9 +258,10 @@ class Lottery {
         $this->query = "UPDATE ".$this->table_name." SET end_date = NULL WHERE ident = ? AND end_date IS NOT NULL";
         $stmt  = $this->dbConnection->prepare($this->query);
         $stmt->bind_param('i', $id);
-        $data            = array();
-        $data["success"] = "Fail";
-        $data["count"]   = 0;
+        $data             = array();
+        $data["success"]  = "Fail";
+        $data["count"]    = 0;
+        $data["recordId"] = $id;
         if ($stmt->execute()) {
             $data["success"] = "Ok";
             $data["count"]   = $this->dbConnection->affected_rows;
@@ -254,25 +273,10 @@ class Lottery {
         $this->query = "DELETE FROM ".$this->table_name." WHERE ident = ?";
         $stmt  = $this->dbConnection->prepare($this->query);
         $stmt->bind_param('i', $id);
-        $data            = array();
-        $data["success"] = "Fail";
-        $data["count"]   = 0;
-        if ($stmt->execute()) {
-            $data["success"] = "Ok";
-            $data["count"]   = $this->dbConnection->affected_rows;
-        }
-        return json_encode($data);
-    }
-
-    public function update($id) {
-        $this->query             = "UPDATE ".$this->table_name." SET description = ?, draw = ?, numbers = ?, upper_number = ?, numbers_tag = ?, specials = ?, upper_special = ?, specials_tag = ?, is_bonus = ?, base_url = ?, last_modified = now() WHERE ident = ?";
-        $stmt              = $this->dbConnection->prepare($this->query);
-        $this->description = htmlspecialchars(strip_tags($this->description));
-        $this->baseUrl     = htmlspecialchars(strip_tags($this->baseUrl));
-        $stmt->bind_param('siiisiisisi', $this->description,$this->draw,$this->numbers,$this->upperNumber,$this->numbersTag,$this->specials,$this->upperSpecial,$this->specialsTag,$this->isBonus,$this->baseUrl,$id);
-        $data            = array();
-        $data["success"] = "Fail";
-        $data["count"]   = 0;
+        $data             = array();
+        $data["success"]  = "Fail";
+        $data["count"]    = 0;
+        $data["recordId"] = $id;
         if ($stmt->execute()) {
             $data["success"] = "Ok";
             $data["count"]   = $this->dbConnection->affected_rows;

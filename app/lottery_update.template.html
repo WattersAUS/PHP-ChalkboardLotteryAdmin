@@ -7,7 +7,6 @@
         </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
-                <p>Last Modified: {{lottery.lastModified}}</p>
                 <md-input-container class="md-block">
                     <label>Description</label>
                     <input ng-model="description">
@@ -51,7 +50,6 @@
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <md-button ng-click="updateLottery()" class="md-primary">Update</md-button>
-            <md-button ng-click="askDisableLottery($event, lot.id)" class="md-raised md-danger">Disable</md-button>
             <md-button ng-click="cancel()">Cancel</md-button>
         </md-dialog-actions>
     </form>

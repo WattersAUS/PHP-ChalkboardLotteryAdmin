@@ -67,22 +67,5 @@ app.factory("lotteryFactory", function($http){
         });
     };
 
-    // will update one field on the data
-    factory.disableLottery = function(id) {
-        return $http({
-            method: 'POST',
-            data: { 'id' : id },
-            url: 'http://www.shiny-ideas.co.uk/api/lottery_disable.php'
-        });
-    };
-
-    factory.enableLottery = function(id) {
-        return $http({
-            method: 'POST',
-            data: { 'id' : id },
-            url: 'http://www.shiny-ideas.co.uk/api/lottery_enable.php'
-        });
-    };
-
     return factory;
 });
