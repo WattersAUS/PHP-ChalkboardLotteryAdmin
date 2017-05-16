@@ -25,12 +25,13 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
         $scope.baseUrl      = "";
         $scope.lastModified = "";
         $scope.endDate      = "";
+        $scope.bonusText    = "";
     }
 
     // basic read / search (arrays returned)
     $scope.readLotteries = function() {
         lotteryFactory.readLotteries().then(function successCallback(response){
-            if response.data.count == 0 {
+            if (response.data.count == 0) {
                 $scope.systemMessage("WARNING: No records were returned from the database!");
             }
             $scope.lotteries = response.data.records;
@@ -58,7 +59,7 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
     $scope.insertLotteryForm = function(event) {
         $mdDialog.show({
             controller: DialogController,
-            templateUrl: './app/lottery/lottery_insert.template.html',
+            templateUrl: './app/lottery_insert.template.html',
             parent: angular.element(document.body),
             targetEvent: event,
             clickOutsideToClose: true,
@@ -98,6 +99,11 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
                 $scope.upperSpecial = response.data.records[0].upperSpecial;
                 $scope.specialsTag  = response.data.records[0].specialsTag;
                 $scope.isBonus      = response.data.records[0].isBonus;
+                if ($scope.isBonus == 1) {
+                    $scope.bonusText = "Yes";
+                } else {
+                    $scope.bonusText = "No";
+                }
                 $scope.baseUrl      = response.data.records[0].baseUrl;
                 $scope.lastModified = response.data.records[0].lastModified;
                 $scope.endDate      = response.data.records[0].endDate;
@@ -140,6 +146,11 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
                 $scope.upperSpecial = response.data.records[0].upperSpecial;
                 $scope.specialsTag  = response.data.records[0].specialsTag;
                 $scope.isBonus      = response.data.records[0].isBonus;
+                if ($scope.isBonus == 1) {
+                    $scope.bonusText = "Yes";
+                } else {
+                    $scope.bonusText = "No";
+                }
                 $scope.baseUrl      = response.data.records[0].baseUrl;
                 $scope.lastModified = response.data.records[0].lastModified;
                 $scope.endDate      = response.data.records[0].endDate;
@@ -186,7 +197,7 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
         });
     }
 
-    $scope.confirmDisableLottery = function(event, id){
+    $scope.askDisableLottery = function(event, id){
         $scope.ident = id;
         var confirm = $mdDialog.confirm()
             .title('Are you sure?')

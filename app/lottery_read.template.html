@@ -1,68 +1,55 @@
 <md-dialog>
     <form ng-cloak>
-
-        <!-- dialog box title -->
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>View Lottery Details/h2>
+                <h2>View Lottery Details - Last Updated: {{lastModified}}</h2>
             </div>
         </md-toolbar>
-
         <md-dialog-content>
             <div class="md-dialog-content">
-                <p>Last Modified: {{lottery.lastModified}}</p>
+                <p></p>
                 <md-input-container class="md-block">
                     <label>Description</label>
                     <input ng-model="description" readonly>
                 </md-input-container>
-
                 <md-input-container class="md-block">
                     <label>Last Draw</label>
                     <input ng-model="draw" readonly>
                 </md-input-container>
-
                 <md-input-container class="md-block">
                     <label>How many numbers</label>
                     <input ng-model="numbers" readonly>
                 </md-input-container>
-
                 <md-input-container class="md-block">
                     <label>Maximum number value</label>
                     <input ng-model="upperNumber" readonly>
                 </md-input-container>
-
                 <md-input-container class="md-block">
                     <label>Numbers tag</label>
                     <input ng-model="numbersTag" readonly>
                 </md-input-container>
-
                 <md-input-container class="md-block">
                     <label>How many specials</label>
                     <input ng-model="specials" readonly>
                 </md-input-container>
-
                 <md-input-container class="md-block">
                     <label>Maximum special value</label>
                     <input ng-model="upperSpecial" readonly>
                 </md-input-container>
-
                 <md-input-container class="md-block">
                     <label>Specials tag</label>
                     <input ng-model="specialsTag" readonly>
                 </md-input-container>
-
-                <md-checkbox class="md-block" ng-model="isBonus" readonly>
-                    <label>Bonus Number?</label>
-                </md-checkbox>
-
+                <md-input-container class="md-block">
+                    <label>Bonus</label>
+                    <input ng-model="bonusText" readonly>
+                </md-input-container>
                 <md-input-container class="md-block">
                     <label>URL</label>
                     <input ng-model="baseUrl" readonly>
                 </md-input-container>
             </div>
         </md-dialog-content>
-
-        <!-- button to close the dialog box -->
         <md-dialog-actions layout="row">
             <md-button ng-click="cancel()">Cancel</md-button>
         </md-dialog-actions>

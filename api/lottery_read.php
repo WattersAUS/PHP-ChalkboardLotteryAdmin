@@ -8,11 +8,7 @@
 // ========== ======= ================================================
 // 2017-05-06 v0.01   First cut of code
 //
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: access");
-header("Access-Control-Allow-Methods: GET");
-header("Access-Control-Allow-Credentials: true");
-header('Content-Type: application/json');
+header("Content-Type: application/json; charset=UTF-8");
 
 include_once './config/connect.php';
 include_once './lottery.php';
