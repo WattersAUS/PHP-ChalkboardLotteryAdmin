@@ -170,13 +170,13 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
                     }
                 );
             }
-        }, function errorCallback(response){
+        }, function errorCallback(response) {
             $scope.systemMessage("ERROR: Unable to retrieve lottery record!");
         });
     }
 
     // if the user selects update, get to it!
-    $scope.updateLottery = function(){
+    $scope.updateLottery = function() {
         lotteryFactory.updateLottery($scope).then(function successCallback(response){
             $scope.systemMessage(response.data.message);
             $scope.readLotteries();
@@ -188,7 +188,7 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
     }
 
     // disable the lottery?
-    $scope.disableLottery = function(){
+    $scope.disableLottery = function() {
         lotteryFactory.disableLottery($scope.ident).then(function successCallback(response){
             $scope.systemMessage(response.data.message);
             $scope.readLotteries();
@@ -197,7 +197,7 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
         });
     }
 
-    $scope.askDisableLottery = function(event, id){
+    $scope.askDisableLottery = function(event, id) {
         $scope.ident = id;
         var confirm = $mdDialog.confirm()
             .title('Are you sure?')

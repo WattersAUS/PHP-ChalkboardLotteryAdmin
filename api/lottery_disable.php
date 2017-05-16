@@ -8,6 +8,7 @@
 // ========== ======= ================================================
 // 2017-05-06 v0.01   First cut of code
 // 2017-05-15 v0.02   Updated code to support JSON import
+// 2017-05-16 v0.03   Reference JSON obj array correctly
 //
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -17,6 +18,7 @@ include_once './lottery.php';
 $connect = new Connect();
 $dbconn  = $connect->createConnection();
 $lottery = new Lottery($dbconn);
-$id      = isset($_GET['id']) ? $_GET['id'] : die();
+$data    = json_decode(file_get_contents("php://input"));
+$id      = $data->{'id'};
 echo($lottery->disable($id));
 ?>

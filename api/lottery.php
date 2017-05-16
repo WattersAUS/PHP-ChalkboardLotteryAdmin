@@ -10,7 +10,6 @@
 // 2017-05-10 v0.02   Use mySQLi not PDO, and return JSON result set
 // 2017-05-15 v0.03   Fixed some incorrect variable names in obj
 //
-
 class Lottery {
 
     // database connection and table name
@@ -35,37 +34,11 @@ class Lottery {
     public $numRows;
     public $data;
 
-    private $query;
+    public $query;
 
     // constructor with $db as database connection
     public function __construct($db){
         $this->dbConnection = $db;
-    }
-
-    private function debugObject($loc) {
-        $debugFile = fopen("/tmp/debug.json", "a") or die("Unable to open file!");
-        $item=array(
-            "location"     => $loc,
-            "table"        => $this->table_name,
-            "ident"        => $row['ident'],
-            "description"  => $row['description'],
-            "draw"         => $row['draw'],
-            "numbers"      => $row['numbers'],
-            "upperNumber"  => $row['upper_number'],
-            "numbersTag"   => $row['numbers_tag'],
-            "specials"     => $row['specials'],
-            "upperSpecial" => $row['upper_special'],
-            "specialsTag"  => $row['specials_tag'],
-            "isBonus"      => $row['is_bonus'],
-            "baseUrl"      => $row['base_url'],
-            "lastModified" => $row['last_modified'],
-            "endDate"      => $row['end_date'],
-            "query"        => $row['query']
-        );
-        $data = array();
-        $data["object"] = $item;
-        fwrite($debugFile, json_encode($data));
-        fclose($debugFile);
     }
 
     public function readAll() {
@@ -232,13 +205,10 @@ class Lottery {
     }
 
     public function insert() {
-        $this->query             = "INSERT INTO ".$this->table_name." SET description = ?, draw = ?, numbers = ?, upper_number = ?, numbers_tag = ?, specials = ?, upper_special = ?, specials_tag = ?, is_bonus = ?, base_url = ?, last_modified = now(), end_date = NULL";
-        $stmt              = $this->dbConnection->prepare($this->query);
         $this->description = htmlspecialchars(strip_tags($this->description));
         $this->baseUrl     = htmlspecialchars(strip_tags($this->baseUrl));
-
-        $this->debugObject("Insert");
-
+        $this->query       = "INSERT INTO ".$this->table_name." SET description = ?, draw = ?, numbers = ?, upper_number = ?, numbers_tag = ?, specials = ?, upper_special = ?, specials_tag = ?, is_bonus = ?, base_url = ?, last_modified = now(), end_date = NULL";
+        $stmt              = $this->dbConnection->prepare($this->query);
         $stmt->bind_param('siiisiisis', $this->description,$this->draw,$this->numbers,$this->upperNumber,$this->numbersTag,$this->specials,$this->upperSpecial,$this->specialsTag,$this->isBonus,$this->baseUrl);
         $data             = array();
         $data["success"]  = "Fail";

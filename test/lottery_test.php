@@ -101,26 +101,21 @@ echo("\n");
 /*
 
 echo ("Calling: insert()\n");
-$lottery->description   = "Test";
+$lottery->description   = "Testing";
 $lottery->draw          = 999;
 $lottery->numbers       = 6;
-$lottery->upper_number  = 99;
-$lottery->numbers_tag   = "number";
+$lottery->upperNumber   = 99;
+$lottery->numbersTag    = "number";
 $lottery->specials      = 3;
-$lottery->upper_special = 9;
-$lottery->specials_tag  = "special";
-$lottery->is_bonus      = 0;
-$lottery->base_url      = "http://www.test.co.uk/? = something";
+$lottery->upperSpecial  = 9;
+$lottery->specialsTag   = "special";
+$lottery->isBonus       = 0;
+$lottery->baseUrl       = "http://www.testing.co.uk/? = something";
 $json = $lottery->insert();
 $recId = decodeInsertMessage($json);
 if ($recId == -1) {
     exit();
 }
-echo("\n");
-
-echo ("Calling: read(".$recId.")\n");
-$json = $lottery->read($recId);
-decodeReadMessage($json);
 echo("\n");
 
 echo ("Calling: disable(".$recId.")\n");
@@ -145,15 +140,15 @@ echo("\n");
 
 echo ("Calling: update(".$recId.")\n");
 $lottery->description   = "Test Updated";
-$lottery->draw          = 1000;
-$lottery->numbers       = 7;
-$lottery->upper_number  = 100;
-$lottery->numbers_tag   = "numbers";
-$lottery->specials      = 4;
-$lottery->upper_special = 10;
-$lottery->specials_tag  = "specials";
-$lottery->is_bonus      = 1;
-$lottery->base_url      = "http://www.test.co.uk/?=updated";
+$lottery->draw          = 1001;
+$lottery->numbers       = 9;
+$lottery->upperNumber   = 200;
+$lottery->numbersTag    = "numberss";
+$lottery->specials      = 5;
+$lottery->upperSpecial  = 20;
+$lottery->specialsTag   = "specialss";
+$lottery->isBonus       = 0;
+$lottery->baseUrl       = "https://www.test.co.uk/?=updated";
 $json = $lottery->update($recId);
 decodeGenericMessage($json);
 echo("\n");
@@ -166,11 +161,6 @@ echo("\n");
 echo ("Calling: delete(".$recId.")\n");
 $json = $lottery->delete($recId);
 decodeGenericMessage($json);
-echo("\n");
-
-echo ("Calling: read(".$recId.")\n");
-$json = $lottery->read($recId);
-decodeReadMessage($json);
 echo("\n");
 
 */
