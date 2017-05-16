@@ -8,7 +8,6 @@
 // ========== ======= ================================================
 // 2017-05-06 v0.01   First cut of code
 //
-header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../config/core.php';
