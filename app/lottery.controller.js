@@ -1,37 +1,17 @@
 app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFactory){
 
-    $scope.readLotteries = function(){
-        lotteryFactory.readLotteries().then(function successCallback(response){
-            $scope.lotteries = response.data.records;
-        }, function errorCallback(response){
-            $scope.showToast("Unable to read lottery records.");
-        });
+    // general system mesg popup
+    $scope.systemMessage = function(message) {
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent(message)
+                .hideDelay(4000)
+                .position("top right")
+        );
     }
 
-    $scope.newLotteryForm = function(event){
-        $mdDialog.show({
-            controller: DialogController,
-            templateUrl: './app/lottery/lottery_insert.template.html',
-            parent: angular.element(document.body),
-            targetEvent: event,
-            clickOutsideToClose: true,
-            scope: $scope,
-            preserveScope: true,
-            fullscreen: true // Only for -xs, -sm breakpoints.
-        });
-    }
-    $scope.createLottery = function(){
-        lotteryFactory.createLottery($scope).then(function successCallback(response){
-            $scope.showToast(response.data.message);
-            $scope.readLotteries();
-            $scope.cancel();
-            $scope.clearLotteryForm();
-        }, function errorCallback(response){
-            $scope.showToast("Unable to create new lottery record.");
-        });
-    }
-
-    $scope.clearLotteryForm = function(){
+    // when in the new/update form clear down after use
+    $scope.clearFormScope = function() {
         $scope.ident        = "";
         $scope.description  = "";
         $scope.draw         = "";
@@ -47,111 +27,170 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
         $scope.endDate      = "";
     }
 
-    $scope.showToast = function(message){
-        $mdToast.show(
-            $mdToast.simple()
-                .textContent(message)
-                .hideDelay(3000)
-                .position("top right")
-        );
+    // basic read / search (arrays returned)
+    $scope.readLotteries = function() {
+        lotteryFactory.readLotteries().then(function successCallback(response){
+            if response.data.count == 0 {
+                $scope.systemMessage("WARNING: No records were returned from the database!");
+            }
+            $scope.lotteries = response.data.records;
+        }, function errorCallback(response){
+            $scope.systemMessage("ERROR: Unable to return lottery records!");
+        });
     }
 
+    $scope.searchLotteries = function() {
+        lotteryFactory.searchLotteries($scope.search_keywords).then(function successCallback(response){
+            $scope.lotteries = response.data.records;
+        }, function errorCallback(response){
+            $scope.systemMessage("ERROR: Unable to search lottery records!");
+        });
+    }
+
+    // generic dialog controller displays insert, read, update forms
     function DialogController($scope, $mdDialog) {
         $scope.cancel = function() {
             $mdDialog.cancel();
         };
     }
 
-    // retrieve a single record to fill out the form
-    $scope.displayLotteryForm = function(id){
-        lotteryFactory.readLottery(id).then(function successCallback(response){
-            $scope.ident        = response.data.ident;
-            $scope.description  = response.data.description;
-            $scope.draw         = response.data.draw;
-            $scope.numbers      = response.data.numbers;
-            $scope.upperNumber  = response.data.upperNumber;
-            $scope.numbersTag   = response.data.numbersTag;
-            $scope.specials     = response.data.specials;
-            $scope.upperSpecial = response.data.upperSpecial;
-            $scope.specialsTag  = response.data.specialsTag;
-            $scope.isBonus      = response.data.isBonus;
-            $scope.baseUrl      = response.data.baseUrl;
-            $scope.lastModified = response.data.lastModified;
-            $scope.endDate      = response.data.endDate;
-            $mdDialog.show({
-                controller: DialogController,
-                templateUrl: './app/read_a_lottery.template.html',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                scope: $scope,
-                preserveScope: true,
-                fullscreen: true
-            }).then(
-                function(){},
-                function() {
-                    $scope.clearLotteryForm();
-                }
-            );
-        }, function errorCallback(response){
-            $scope.showToast("Unable to retrieve lottery record.");
+    // load up the form for a new lottery, display
+    $scope.insertLotteryForm = function(event) {
+        $mdDialog.show({
+            controller: DialogController,
+            templateUrl: './app/lottery/lottery_insert.template.html',
+            parent: angular.element(document.body),
+            targetEvent: event,
+            clickOutsideToClose: true,
+            scope: $scope,
+            preserveScope: true,
+            fullscreen: true // Only for -xs, -sm breakpoints.
         });
     }
 
-    // retrieve record to fill out the form
-    $scope.updateLotteryForm = function(id){
-        lotteryFactory.readLottery(id).then(function successCallback(response){
-            $scope.ident        = response.data.ident;
-            $scope.description  = response.data.description;
-            $scope.draw         = response.data.draw;
-            $scope.numbers      = response.data.numbers;
-            $scope.upperNumber  = response.data.upperNumber;
-            $scope.numbersTag   = response.data.numbersTag;
-            $scope.specials     = response.data.specials;
-            $scope.upperSpecial = response.data.upperSpecial;
-            $scope.specialsTag  = response.data.specialsTag;
-            $scope.isBonus      = response.data.isBonus;
-            $scope.baseUrl      = response.data.baseUrl;
-            $scope.lastModified = response.data.lastModified;
-            $scope.endDate      = response.data.endDate;
-            $mdDialog.show({
-                controller: DialogController,
-                templateUrl: './app/lottery_update.template.html',
-                parent: angular.element(document.body),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                scope: $scope,
-                preserveScope: true,
-                fullscreen: true
-            }).then(
-                function(){},
-                function() {
-                    $scope.clearLotteryForm();
-                }
-            );
-        }, function errorCallback(response){
-            $scope.showToast("Unable to retrieve lottery record.");
-        });
-    }
-
-    $scope.updateLottery = function(){
-        lotteryFactory.updateLottery($scope).then(function successCallback(response){
-            $scope.showToast(response.data.message);
+    // and post collected data when the user selects Insert
+    $scope.insertLottery = function() {
+        lotteryFactory.insertLottery($scope).then(function successCallback(response){
+            $scope.systemMessage(response.data.message);
             $scope.readLotteries();
             $scope.cancel();
-            $scope.clearLotteryForm();
-        },
-        function errorCallback(response) {
-            $scope.showToast("Unable to update lottery record.");
+            $scope.clearFormScope();
+        }, function errorCallback(response){
+            $scope.systemMessage("ERROR: Unable to insert new lottery record!");
         });
     }
 
-    // cofirm product deletion
+    // retrieve a single record from the array to fill out the form
+    $scope.readLotteryForm = function(id) {
+        lotteryFactory.readLottery(id).then(function successCallback(response){
+            if (response.count == 0) {
+                $scope.systemMessage("ERROR: Unable to return selected lottery record id " + id + "!");
+            } else if (response.count > 0) {
+                $scope.systemMessage("ERROR: To many records returned for id: " + id + "!");
+            } else {
+                $scope.ident        = response.data.records[0].ident;
+                $scope.description  = response.data.records[0].description;
+                $scope.draw         = response.data.records[0].draw;
+                $scope.numbers      = response.data.records[0].numbers;
+                $scope.upperNumber  = response.data.records[0].upperNumber;
+                $scope.numbersTag   = response.data.records[0].numbersTag;
+                $scope.specials     = response.data.records[0].specials;
+                $scope.upperSpecial = response.data.records[0].upperSpecial;
+                $scope.specialsTag  = response.data.records[0].specialsTag;
+                $scope.isBonus      = response.data.records[0].isBonus;
+                $scope.baseUrl      = response.data.records[0].baseUrl;
+                $scope.lastModified = response.data.records[0].lastModified;
+                $scope.endDate      = response.data.records[0].endDate;
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: './app/lottery_read.template.html',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    scope: $scope,
+                    preserveScope: true,
+                    fullscreen: true
+                }).then(
+                    function(){},
+                    function() {
+                        $scope.clearFormScope();
+                    }
+                );
+            }
+        }, function errorCallback(response) {
+            $scope.systemMessage("ERROR: Unable to retrieve lottery record!");
+        });
+    }
+
+    // retrieve record to fill out the form ready to be updated
+    $scope.updateLotteryForm = function(id) {
+        lotteryFactory.readLottery(id).then(function successCallback(response) {
+            if (response.count == 0) {
+                $scope.systemMessage("ERROR: Unable to return selected lottery record id " + id + "!");
+            } else if (response.count > 0) {
+                $scope.systemMessage("ERROR: To many records returned for id: " + id + "!");
+            } else {
+                $scope.ident        = response.data.records[0].ident;
+                $scope.description  = response.data.records[0].description;
+                $scope.draw         = response.data.records[0].draw;
+                $scope.numbers      = response.data.records[0].numbers;
+                $scope.upperNumber  = response.data.records[0].upperNumber;
+                $scope.numbersTag   = response.data.records[0].numbersTag;
+                $scope.specials     = response.data.records[0].specials;
+                $scope.upperSpecial = response.data.records[0].upperSpecial;
+                $scope.specialsTag  = response.data.records[0].specialsTag;
+                $scope.isBonus      = response.data.records[0].isBonus;
+                $scope.baseUrl      = response.data.records[0].baseUrl;
+                $scope.lastModified = response.data.records[0].lastModified;
+                $scope.endDate      = response.data.records[0].endDate;
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: './app/lottery_update.template.html',
+                    parent: angular.element(document.body),
+                    targetEvent: event,
+                    clickOutsideToClose: true,
+                    scope: $scope,
+                    preserveScope: true,
+                    fullscreen: true
+                }).then(
+                    function(){},
+                    function() {
+                        $scope.clearFormScope();
+                    }
+                );
+            }
+        }, function errorCallback(response){
+            $scope.systemMessage("ERROR: Unable to retrieve lottery record!");
+        });
+    }
+
+    // if the user selects update, get to it!
+    $scope.updateLottery = function(){
+        lotteryFactory.updateLottery($scope).then(function successCallback(response){
+            $scope.systemMessage(response.data.message);
+            $scope.readLotteries();
+            $scope.cancel();
+        },
+        function errorCallback(response) {
+            $scope.systemMessage("ERROR: Unable to update lottery record!");
+        });
+    }
+
+    // disable the lottery?
+    $scope.disableLottery = function(){
+        lotteryFactory.disableLottery($scope.ident).then(function successCallback(response){
+            $scope.systemMessage(response.data.message);
+            $scope.readLotteries();
+        }, function errorCallback(response){
+            $scope.systemMessage("ERROR: Unable to set lottery record as disabled!");
+        });
+    }
+
     $scope.confirmDisableLottery = function(event, id){
         $scope.ident = id;
         var confirm = $mdDialog.confirm()
             .title('Are you sure?')
-            .textContent('Lottery will be disabled.')
+            .textContent('The Lottery record will be disabled.')
             .targetEvent(event)
             .ok('Yes')
             .cancel('No');
@@ -164,23 +203,6 @@ app.controller('lotteryCtrl', function($scope, $mdDialog, $mdToast, lotteryFacto
             function() {
             }
         );
-    }
-
-    $scope.disableLottery = function(){
-        lotteryFactory.disableLottery($scope.ident).then(function successCallback(response){
-            $scope.showToast(response.data.message);
-            $scope.readLotteries();
-        }, function errorCallback(response){
-            $scope.showToast("Unable to mark lottery record as disabled.");
-        });
-    }
-
-    $scope.searchLotteries = function(){
-        lotteryFactory.searchLotteries($scope.search_keywords).then(function successCallback(response){
-            $scope.lotteries = response.data.records;
-        }, function errorCallback(response){
-            $scope.showToast("Unable to search lotteries records.");
-        });
     }
 
 });
