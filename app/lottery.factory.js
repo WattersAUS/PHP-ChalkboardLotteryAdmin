@@ -3,7 +3,7 @@ app.factory("lotteryFactory", function($http){
     var factory = {};
 
     // return array of recs to controller
-    factory.readLotteries = function(){
+    factory.readLotteries = function() {
         return $http({
             method: 'GET',
             url: 'http://www.shiny-ideas.co.uk/api/lottery_read_all.php'
@@ -11,7 +11,7 @@ app.factory("lotteryFactory", function($http){
     };
 
     // may only be one in the array (needs to be tested)
-    factory.readLottery = function(id){
+    factory.readLottery = function(id) {
         return $http({
             method: 'GET',
             url: 'http://www.shiny-ideas.co.uk/api/lottery_read.php?id=' + id
@@ -19,7 +19,7 @@ app.factory("lotteryFactory", function($http){
     };
 
     // return array of LIKE data
-    factory.searchLotteries = function(keywords){
+    factory.searchLotteries = function(keywords) {
         return $http({
             method: 'GET',
             url: 'http://www.shiny-ideas.co.uk/api/lottery_search.php?s=' + keywords
@@ -27,7 +27,7 @@ app.factory("lotteryFactory", function($http){
     };
 
     // insert one
-    factory.insertLottery = function($scope){
+    factory.insertLottery = function($scope) {
         return $http({
             method: 'POST',
             data: {
@@ -47,7 +47,7 @@ app.factory("lotteryFactory", function($http){
     };
 
     // update data
-    factory.updateLottery = function($scope){
+    factory.updateLottery = function($scope) {
         return $http({
             method: 'POST',
             data: {
@@ -68,7 +68,7 @@ app.factory("lotteryFactory", function($http){
     };
 
     // will update one field on the data
-    factory.disableLottery = function(id){
+    factory.disableLottery = function(id) {
         return $http({
             method: 'POST',
             data: { 'id' : id },
@@ -76,7 +76,7 @@ app.factory("lotteryFactory", function($http){
         });
     };
 
-    factory.enableLottery = function(id){
+    factory.enableLottery = function(id) {
         return $http({
             method: 'POST',
             data: { 'id' : id },

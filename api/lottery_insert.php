@@ -8,6 +8,7 @@
 // ========== ======= ================================================
 // 2017-05-06 v0.01   First cut of code
 // 2017-05-15 v0.02   Renamed from lottery_create.php
+// 2017-05-16 v0.03   Reference JSON obj array correctly
 //
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -18,16 +19,15 @@ $connect = new Connect();
 $dbconn  = $connect->createConnection();
 $lottery = new Lottery($dbconn);
 $data    = json_decode(file_get_contents("php://input"));
-
-$lottery->$description  = $data->description;
-$lottery->$draw         = $data->draw;
-$lottery->$numbers      = $data->numbers;
-$lottery->$upperNumber  = $data->upperNumber;
-$lottery->$numbersTag   = $data->numbersTag;
-$lottery->$specials     = $data->specials;
-$lottery->$upperSpecial = $data->upperSpecial;
-$lottery->$specialsTag  = $data->specialsTag;
-$lottery->$isBonus      = $data->isBonus;
-$lottery->$baseUrl      = $data->baseUrl;
+$lottery->$description  = $data->{'description'};
+$lottery->$draw         = $data->{'draw'};
+$lottery->$numbers      = $data->{'numbers'};
+$lottery->$upperNumber  = $data->{'upperNumber'};
+$lottery->$numbersTag   = $data->{'numbersTag'};
+$lottery->$specials     = $data->{'specials'};
+$lottery->$upperSpecial = $data->{'upperSpecial'};
+$lottery->$specialsTag  = $data->{'specialsTag'};
+$lottery->$isBonus      = $data->{'isBonus'};
+$lottery->$baseUrl      = $data->{'baseUrl'};
 echo($lottery->insert());
 ?>
